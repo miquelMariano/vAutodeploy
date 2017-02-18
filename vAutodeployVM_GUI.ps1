@@ -1,6 +1,6 @@
 <# 
 .DESCRIPTION
-   vAutodeployVM_GUI.ps1 is an script that help to admins. to deploy automatically many virtual machines easyly
+   vAutodeployVM_GUI.ps1 is an script that help to sysadmins. to deploy automatically many virtual machines easyly
  
 .NOTES 
    File Name  : vAutodeployVM_GUI.ps1 
@@ -22,12 +22,14 @@
    v4	27/01/2017	Translate script to english | Part1
    v4	30/01/2017	Modify default value of vars.
    v4	02/02/2017	Send deployment log with telegram
+   v4	18/02/2017	Move to definitive Github repo
+   
     
 #>
 
 #-------------DEFAULT VARS--------------------
 $currentversion = 4
-$currentbuild = 40202
+$currentbuild = 41802
 $FileCurrentversion = "$env:userprofile\currentversion"
 #-------------DEFAULT VARS--------------------
 
@@ -240,7 +242,7 @@ function ButtonValidateClusterAction {
 	$outputTextBox.text = "`r`n$now Cargada lista de datastores" + $outputTextBox.text
 		
 		foreach ($datastore in $datastores) {
-           $DropDownBoxDatastore.Items.Add($datastore.Name) #Add templates to DropDown List
+           $DropDownBoxDatastore.Items.Add($datastore.Name) #Add datastores to DropDown List
         }   
     }
 }
@@ -266,8 +268,9 @@ function ButtonValidateDatastoreAction {
 	$DropDownBoxVLAN.Items.Clear()
 	
 
-##	$VirtualPortGroups = get-cluster $DropDownBoxCluster.SelectedItem.ToString() | get-vmhost | Get-VirtualPortGroup -name vlan* | select name
-    $VirtualPortGroups = get-cluster $DropDownBoxCluster.SelectedItem.ToString() | get-vmhost | Get-VirtualPortGroup | select name | sort-object name
+#  	$VirtualPortGroups = get-cluster $DropDownBoxCluster.SelectedItem.ToString() | get-vmhost | Get-VirtualPortGroup -name vlan* | select name
+#   $VirtualPortGroups = get-cluster $DropDownBoxCluster.SelectedItem.ToString() | get-vmhost | Get-VirtualPortGroup | select name | sort-object name
+    $VirtualPortGroups = Get-VirtualPortGroup | select name | sort-object name
 	$now = Get-Date -format "dd-MM-yy HH:mm | "
 	$outputTextBox.text = "`r`n$now Seleccionado datastore $($DropDownBoxDatastore.SelectedItem.ToString())" + $outputTextBox.text
 	$outputTextBox.text = "`r`n$now Cargada lista de port groups del cluster $($DropDownBoxCluster.SelectedItem.ToString())" + $outputTextBox.text
@@ -490,7 +493,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
     $main_form.KeyPreview = $true
 #    $main_form.Add_KeyDown({if ($_.KeyCode -eq "Escape") {$main_form.Close()}})
 
-	Invoke-WebRequest -Uri https://raw.githubusercontent.com/miquelMariano/vSphere-PowerCLI/master/vAutodeploy/currentversion -OutFile $FileCurrentversion
+	Invoke-WebRequest -Uri https://raw.githubusercontent.com/miquelMariano/vAutodeploy/master/currentversion -OutFile $FileCurrentversion
 	$githubversion = Get-Content -path $FileCurrentversion
 
     $LabelControlVersion = New-Object System.Windows.Forms.Label
@@ -515,7 +518,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
 	$LinkLabel.LinkColor = "BLUE"
 	$LinkLabel.ActiveLinkColor = "RED"
 	$LinkLabel.Text = "GitHub"
-	$LinkLabel.add_Click({[system.Diagnostics.Process]::start("https://github.com/miquelMariano/vSphere-PowerCLI/tree/master/vAutodeploy")})
+	$LinkLabel.add_Click({[system.Diagnostics.Process]::start("https://github.com/miquelMariano/vAutodeploy")})
 	$main_form.Controls.Add($LinkLabel)
 
 #-------------DEFINICIÓN PRINCIPAL DEL FORMULARIO--------------------
@@ -568,7 +571,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
     $GroupBoxConnection.Controls.Add($LabelIPorFQDN)
 	
 	$TextBoxIPorFQDN = New-Object System.Windows.Forms.TextBox 
-	$TextBoxIPorFQDN.Text = "vcenter.ncora.corp"
+	$TextBoxIPorFQDN.Text = "vcenter.yourdomain.corp"
     $TextBoxIPorFQDN.Location = New-Object System.Drawing.Size(10,40) #Left, Top, Right, Bottom
     $TextBoxIPorFQDN.Size = New-Object System.Drawing.Size(165,20) 
     $GroupBoxConnection.Controls.Add($TextBoxIPorFQDN)
@@ -580,7 +583,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
     $GroupBoxConnection.Controls.Add($LabelUser)
 	
 	$TextBoxUsername = New-Object System.Windows.Forms.TextBox 
-	$TextBoxUsername.Text = "ncora\username"
+	$TextBoxUsername.Text = "vAutodeploy-user"
     $TextBoxUsername.Location = New-Object System.Drawing.Size(10,90)
     $TextBoxUsername.Size = New-Object System.Drawing.Size(165,20) 
     $GroupBoxConnection.Controls.Add($TextBoxUsername)
