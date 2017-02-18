@@ -62,7 +62,7 @@ function connectServer{
 	$main_form.ControlBox = $false
 
     $now = Get-Date -format "dd-MM-yy HH:mm | "
-    $outputTextBox.text = "`r`n$now Conectado correctamente a $($TextBoxIPorFQDN.Text)" + $outputTextBox.text
+    $outputTextBox.text = "`r`n$now Connected correctly to $($TextBoxIPorFQDN.Text)" + $outputTextBox.text
 	$outputTextBox.text = "`r`n$now Rellana los campos iniciales y que base vamos a tomar para el despliegue" + $outputTextBox.text
 	
     }
@@ -567,7 +567,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
 	$LabelIPorFQDN = New-Object System.Windows.Forms.Label
     $LabelIPorFQDN.Location = New-Object System.Drawing.Point(10, 20)
     $LabelIPorFQDN.Size = New-Object System.Drawing.Size(120, 14)
-    $LabelIPorFQDN.Text = "IP Address o FQDN:"
+    $LabelIPorFQDN.Text = "IP Address or FQDN:"
     $GroupBoxConnection.Controls.Add($LabelIPorFQDN)
 	
 	$TextBoxIPorFQDN = New-Object System.Windows.Forms.TextBox 
@@ -958,7 +958,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
 	$outputTextBox.ScrollToCaret()
 	$now = Get-Date -format "dd-MM-yy HH:mm | "
     $outputTextBox.text = "`r`n$now vAutoDeploy v$currentversion build $currentbuild by miquelMariano.github.io" + $outputTextBox.text
-	$outputTextBox.text = "`r`n$now Introduce los datos de conexion para empezar..." + $outputTextBox.text
+	$outputTextBox.text = "`r`n$now Enter the connection data to start..." + $outputTextBox.text
     $groupBox4.Controls.Add($outputTextBox) #Member of groupBox4
 
 #-------------GROUP BOX LOG----------------------------	
