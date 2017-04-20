@@ -1,4 +1,4 @@
 # vSphere PowerCLI
 
-[![vAutodeploy](vAutodeploy.png)]
+![vAutodeploy](vAutodeploy.png)
 
