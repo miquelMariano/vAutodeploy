@@ -24,13 +24,14 @@
    v4	02/02/2017	Send deployment log with telegram
    v4	18/02/2017	Move to definitive Github repo
    V4	09/03/2017	Translate script to english | Part2
+   v4 	24/10/2017	Add free space on datastore dropdown 
    
     
 #>
 
 #-------------DEFAULT VARS--------------------
 $currentversion = 4
-$currentbuild = 40903
+$currentbuild = 42410
 $FileCurrentversion = "$env:userprofile\currentversion"
 #-------------DEFAULT VARS--------------------
 
@@ -243,7 +244,8 @@ function ButtonValidateClusterAction {
 	$outputTextBox.text = "`r`n$now Datastores drop down list loaded succesfully" + $outputTextBox.text
 		
 		foreach ($datastore in $datastores) {
-           $DropDownBoxDatastore.Items.Add($datastore.Name) #Add datastores to DropDown List
+		   $datastoreinfo = $datastore.name + " (" + $datastore.freespacegb + " GB free)"
+           $DropDownBoxDatastore.Items.Add($datastoreinfo) #Add datastores to DropDown List
         }   
     }
 }
@@ -764,7 +766,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
     $DropDownBoxDatastore.DropDownStyle = [System.Windows.Forms.ComboBoxStyle]::DropDownList #Disable user input in ComboBox
     $DropDownBoxDatastore.Location = New-Object System.Drawing.Size(170,220) 
 #   $DropDownBoxDatastore.Location = New-Object System.Drawing.Size(170,170) 
-    $DropDownBoxDatastore.Size = New-Object System.Drawing.Size(185,20) 
+    $DropDownBoxDatastore.Size = New-Object System.Drawing.Size(320,20) 
     $DropDownBoxDatastore.DropDownHeight = 200
     $DropDownBoxDatastore.Enabled=$false
     $groupBox2.Controls.Add($DropDownBoxDatastore)
@@ -773,7 +775,7 @@ if (-not (Get-PSSnapin VMware.VimAutomation.Core -ErrorAction SilentlyContinue))
     $ButtonValidateDatastore.add_click({ButtonValidateDatastoreAction})
 	$ButtonValidateDatastore.Size = New-Object System.Drawing.Size(30,20) 
     $ButtonValidateDatastore.Text = "OK"
-    $ButtonValidateDatastore.Location = New-Object System.Drawing.Size(360,220)
+    $ButtonValidateDatastore.Location = New-Object System.Drawing.Size(495,220)
 #	$ButtonValidateDatastore.Location = New-Object System.Drawing.Size(360,170)
     $ButtonValidateDatastore.Enabled = $false #Disabled by default
     $groupBox2.Controls.Add($ButtonValidateDatastore) #Member of GroupBoxConnection
