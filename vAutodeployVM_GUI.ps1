@@ -244,7 +244,7 @@ function ButtonValidateClusterAction {
 	$outputTextBox.text = "`r`n$now Datastores drop down list loaded succesfully" + $outputTextBox.text
 		
 		foreach ($datastore in $datastores) {
-		   $datastoreinfo = $datastore.name + " (" + $datastore.freespacegb + " GB free)"
+		   $datastoreinfo = $datastore.name # + " (" + $datastore.freespacegb + " GB free)"
            $DropDownBoxDatastore.Items.Add($datastoreinfo) #Add datastores to DropDown List
         }   
     }
